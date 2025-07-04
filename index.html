@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DecentraSpace - Empowering Creators Through Web3</title>
+    <meta name="description" content="Join the decentralized creator economy. Stream live, share content, and earn NEAR tokens directly from your audience." />
+    
+    <script>
+      if (typeof global === 'undefined') {
+        window.global = window;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Load setup BEFORE main -->
+    <script type="module">
+      import './src/setup.js';
+      import('./src/main.tsx');
+    </script>
+  </body>
+</html>
