@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Loader2, AlertCircle, Home as HomeIcon, Users, Wallet } from 'lucide-react';
 import { useContractIntegration } from './hooks/useContractIntegration';
 
+// ✅ Import Huddle01 Provider
+import { HuddleClient, HuddleProvider } from '@huddle01/react';
+
 // Layout Components
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -21,6 +24,29 @@ import CreateRoomPage from './pages/CreateRoomPage';
 import FeaturedContent from './components/FeaturedContent';
 import DiscoverCreators from './components/DiscoverCreators';
 import UploadContent from './components/UploadContent';
+
+// ✅ Initialize Huddle01 Client with enhanced configuration
+const huddleClient = new HuddleClient({
+  projectId: import.meta.env.VITE_HUDDLE_PROJECT_ID || '',
+  options: {
+    // Enhanced configuration for better performance
+    activeSpeakers: {
+      size: 8,
+    },
+    // Add additional options for better experience
+    autoConsume: true,
+  },
+});
+
+// ✅ Check if Huddle01 is properly configured
+const isHuddleConfigured = () => {
+  const projectId = import.meta.env.VITE_HUDDLE_PROJECT_ID;
+  if (!projectId) {
+    console.warn('⚠️ Huddle01 Project ID not configured. Live streaming features will be limited.');
+    return false;
+  }
+  return true;
+};
 
 // ✅ Enhanced Loading Component
 const LoadingSpinner: React.FC<{ message?: string }> = ({ message = "Loading..." }) => (
@@ -52,6 +78,12 @@ class ErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('🚨 Error caught by boundary:', error, errorInfo);
+    
+    // Log Huddle01 specific errors
+    if (error.message.includes('huddle') || error.message.includes('Huddle')) {
+      console.error('🎥 Huddle01 Error:', error);
+    }
+    
     this.setState({
       errorInfo: errorInfo.componentStack || null
     });
@@ -69,7 +101,7 @@ class ErrorBoundary extends React.Component<
             </p>
             
             {/* Error Details (Development) */}
-            {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+            {import.meta.env.DEV && this.state.errorInfo && (
               <details className="bg-slate-800 rounded-xl p-4 mb-6 text-left">
                 <summary className="cursor-pointer text-purple-400 mb-2">Error Details</summary>
                 <pre className="text-xs text-gray-300 overflow-auto">
@@ -136,7 +168,7 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-// ✅ Wallet Connection Guard
+// ✅ Wallet Connection Guard with Huddle01 awareness
 const WalletGuard: React.FC<{ 
   children: React.ReactNode;
   requireConnection?: boolean;
@@ -144,10 +176,43 @@ const WalletGuard: React.FC<{
   fallbackPath?: string;
 }> = ({ children, requireConnection = true, requireNetwork = true, fallbackPath = "/" }) => {
   const { isConnected, isLoading, connectWallet, networkInfo, error } = useContractIntegration();
+  const [showHuddleWarning, setShowHuddleWarning] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on a Huddle01 route without configuration
+    const isHuddleRoute = window.location.pathname.includes('create-room') || window.location.pathname.includes('live');
+    if (isHuddleRoute && !isHuddleConfigured()) {
+      setShowHuddleWarning(true);
+    }
+  }, []);
 
   // Show loading while wallet is connecting
   if (isLoading) {
     return <LoadingSpinner message="Connecting to Ethereum wallet..." />;
+  }
+
+  // Show Huddle01 configuration warning if needed
+  if (showHuddleWarning && !isHuddleConfigured()) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <AlertCircle className="w-16 h-16 text-yellow-400 mx-auto mb-6" />
+          <h2 className="text-3xl font-bold mb-4">Huddle01 Not Configured</h2>
+          <p className="text-gray-400 mb-6 text-lg">
+            Live streaming features require Huddle01 configuration. Please check your environment variables.
+          </p>
+          <div className="bg-slate-800 rounded-lg p-4 text-left text-sm text-gray-300 mb-6">
+            <p className="font-mono">VITE_HUDDLE_PROJECT_ID is missing</p>
+          </div>
+          <a
+            href={fallbackPath}
+            className="inline-block bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+          >
+            Go Back
+          </a>
+        </div>
+      </div>
+    );
   }
 
   // Show connection required screen
@@ -211,6 +276,9 @@ const WalletGuard: React.FC<{
           <p className="text-gray-400 mb-6 text-lg">
             Please switch to Sepolia testnet to use DecentraSpace features.
           </p>
+          <p className="text-sm text-gray-500 mb-6">
+            Current network: {networkInfo.networkName || 'Unknown'}
+          </p>
           <div className="space-y-3">
             <button
               onClick={() => window.location.reload()}
@@ -261,13 +329,20 @@ const DiscoverPage: React.FC = () => {
   return <DiscoverCreators isFullPage={true} />;
 };
 
-// ✅ Main App Component
-const App: React.FC = () => {
+// ✅ App Content Component (wrapped by Huddle01 Provider)
+const AppContent: React.FC = () => {
   const { isConnected, isLoading, error: contractError, networkInfo } = useContractIntegration();
   const [appInitialized, setAppInitialized] = useState(false);
 
   // Monitor app initialization
   useEffect(() => {
+    // Check Huddle01 configuration on mount
+    if (!isHuddleConfigured()) {
+      console.warn('⚠️ Huddle01 is not properly configured. Check your environment variables.');
+    } else {
+      console.log('✅ Huddle01 client initialized with project ID:', import.meta.env.VITE_HUDDLE_PROJECT_ID);
+    }
+
     // Simple initialization check
     const timer = setTimeout(() => {
       setAppInitialized(true);
@@ -296,7 +371,7 @@ const App: React.FC = () => {
                 <Route path="/discover" element={<DiscoverPage />} />
                 <Route path="/content/:id" element={<ContentDetailPage />} />
                 
-                {/* ✅ Live streaming routes (public) */}
+                {/* ✅ Live streaming routes (public viewing, creation requires wallet) */}
                 <Route path="/live" element={<LiveNow />} />
                 <Route path="/live-now" element={<LiveNow />} />
                 
@@ -321,6 +396,7 @@ const App: React.FC = () => {
                   } 
                 />
                 
+                {/* ✅ Create Room Route with Huddle01 */}
                 <Route 
                   path="/create-room" 
                   element={
@@ -344,6 +420,25 @@ const App: React.FC = () => {
         </div>
       </Router>
     </ErrorBoundary>
+  );
+};
+
+// ✅ Main App Component with Huddle01 Provider
+const App: React.FC = () => {
+  // Check if we should enable Huddle01
+  const shouldEnableHuddle = isHuddleConfigured();
+
+  // If Huddle01 is not configured, render without provider
+  if (!shouldEnableHuddle) {
+    console.warn('⚠️ Rendering app without Huddle01 Provider - Project ID missing');
+    return <AppContent />;
+  }
+
+  // Render with Huddle01 Provider
+  return (
+    <HuddleProvider client={huddleClient}>
+      <AppContent />
+    </HuddleProvider>
   );
 };
 
