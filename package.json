@@ -3,6 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "npmConfig": {
+    "legacy-peer-deps": true
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
