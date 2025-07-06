@@ -1,3 +1,4 @@
+// api/huddle/access-token.js
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -22,10 +23,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    // For now, return a mock token since Huddle01 server SDK might have issues in serverless
-    const mockToken = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb29tSWQiOiIke3Jvb21JZH0iLCJ1c2VyQWRkcmVzcyI6IiR7dXNlckFkZHJlc3N9IiwiaWF0IjoxNjE2MjM5MDIyfQ.mock_token_for_demo`;
-    
-    res.json({ token: mockToken });
+    // Generate a basic JWT-like token for demo purposes
+    // In production, you'd use the Huddle01 server SDK
+    const basicToken = Buffer.from(JSON.stringify({
+      roomId,
+      userAddress,
+      role,
+      timestamp: Date.now()
+    })).toString('base64');
+
+    res.status(200).json({ token: basicToken });
   } catch (error) {
     console.error('Error generating token:', error);
     res.status(500).json({ error: 'Token generation failed' });

@@ -1,5 +1,5 @@
 // src/services/huddleService.ts
-const BACKEND_URL = import.meta.env.DEV
+const BACKEND_URL = import.meta.env.PROD
   ? '/api/huddle'  // Use proxy in development
   : '/api/huddle';
 

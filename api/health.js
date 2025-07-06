@@ -1,3 +1,4 @@
+// api/health.js
 export default function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -8,8 +9,9 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  res.json({ 
+  res.status(200).json({ 
     status: 'ok', 
-    hasApiKey: !!process.env.HUDDLE_API_KEY 
+    hasApiKey: !!process.env.HUDDLE_API_KEY,
+    timestamp: new Date().toISOString()
   });
 }

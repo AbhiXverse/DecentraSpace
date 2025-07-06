@@ -1,3 +1,4 @@
+// api/huddle/create-room.js
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -55,7 +56,7 @@ export default async function handler(req, res) {
       meetingLink: `https://iframe.huddle01.com/${data.data.roomId}/lobby`
     };
 
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error creating room:', error);
     res.status(500).json({ error: 'Internal server error' });
