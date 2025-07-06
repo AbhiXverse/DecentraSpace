@@ -1,9 +1,9 @@
-require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-ethers");
 require("dotenv").config();
 
 module.exports = {
   solidity: {
-    version: "0.8.20", // Match your contract version
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
@@ -23,12 +23,5 @@ module.exports = {
       url: process.env.MUMBAI_RPC_URL || "",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
     }
-  },
-  gasReporter: {
-    enabled: true,
-    currency: "USD"
-  },
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
   }
 };

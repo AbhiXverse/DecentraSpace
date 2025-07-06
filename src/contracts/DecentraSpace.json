@@ -1,5 +1,5 @@
 {
-  "address": "0xF58cE7515a0Febd963Dd50d89B1fd1B3B7B2073c",
+  "address": "0x71f1b142Cd151B36e756040e5c6a13e4e8aBC7DF",
   "abi": [
     {
       "type": "error",
@@ -161,14 +161,12 @@
       "payable": false,
       "inputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ],
       "outputs": [
         {
-          "type": "string",
-          "name": ""
+          "type": "string"
         }
       ]
     },
@@ -180,14 +178,12 @@
       "payable": false,
       "inputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ],
       "outputs": [
         {
-          "type": "address",
-          "name": ""
+          "type": "address"
         }
       ]
     },
@@ -199,14 +195,12 @@
       "payable": false,
       "inputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ],
       "outputs": [
         {
-          "type": "string",
-          "name": ""
+          "type": "string"
         }
       ]
     },
@@ -219,8 +213,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ]
     },
@@ -232,8 +225,7 @@
       "payable": false,
       "inputs": [
         {
-          "type": "string",
-          "name": ""
+          "type": "string"
         }
       ],
       "outputs": [
@@ -296,18 +288,15 @@
       "payable": false,
       "inputs": [
         {
-          "type": "address",
-          "name": ""
+          "type": "address"
         },
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ],
       "outputs": [
         {
-          "type": "string",
-          "name": ""
+          "type": "string"
         }
       ]
     },
@@ -319,18 +308,15 @@
       "payable": false,
       "inputs": [
         {
-          "type": "address",
-          "name": ""
+          "type": "address"
         },
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ],
       "outputs": [
         {
-          "type": "string",
-          "name": ""
+          "type": "string"
         }
       ]
     },
@@ -342,8 +328,7 @@
       "payable": false,
       "inputs": [
         {
-          "type": "address",
-          "name": ""
+          "type": "address"
         }
       ],
       "outputs": [
@@ -382,8 +367,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "string[]",
-          "name": ""
+          "type": "string[]"
         }
       ]
     },
@@ -402,7 +386,6 @@
       "outputs": [
         {
           "type": "tuple",
-          "name": "",
           "components": [
             {
               "type": "string",
@@ -451,7 +434,6 @@
       "outputs": [
         {
           "type": "tuple",
-          "name": "",
           "components": [
             {
               "type": "string",
@@ -495,8 +477,7 @@
       ],
       "outputs": [
         {
-          "type": "string[]",
-          "name": ""
+          "type": "string[]"
         }
       ]
     },
@@ -514,8 +495,7 @@
       ],
       "outputs": [
         {
-          "type": "string[]",
-          "name": ""
+          "type": "string[]"
         }
       ]
     },
@@ -528,8 +508,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "address[]",
-          "name": ""
+          "type": "address[]"
         }
       ]
     },
@@ -542,8 +521,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "string[]",
-          "name": ""
+          "type": "string[]"
         }
       ]
     },
@@ -562,7 +540,6 @@
       "outputs": [
         {
           "type": "tuple",
-          "name": "",
           "components": [
             {
               "type": "string",
@@ -640,8 +617,7 @@
       ],
       "outputs": [
         {
-          "type": "bool",
-          "name": ""
+          "type": "bool"
         }
       ]
     },
@@ -680,8 +656,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ]
     },
@@ -693,8 +668,7 @@
       "payable": false,
       "inputs": [
         {
-          "type": "string",
-          "name": ""
+          "type": "string"
         }
       ],
       "outputs": [
@@ -800,8 +774,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ]
     },
@@ -814,8 +787,7 @@
       "inputs": [],
       "outputs": [
         {
-          "type": "uint256",
-          "name": ""
+          "type": "uint256"
         }
       ]
     },

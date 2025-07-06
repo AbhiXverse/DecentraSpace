@@ -5,22 +5,21 @@ const path = require("path");
 async function main() {
   console.log("🚀 Starting DecentraSpace deployment...");
 
-  // Get the contract factory
   const DecentraSpace = await hre.ethers.getContractFactory("DecentraSpaceMVP");
   
-  // Deploy the contract
   console.log("📝 Deploying contract...");
   const decentraSpace = await DecentraSpace.deploy();
   
-  // Wait for deployment
-  await decentraSpace.waitForDeployment();
+  await decentraSpace.deployed();
 
-  const address = await decentraSpace.getAddress();
+  const address = decentraSpace.address;
   console.log("✅ DecentraSpace deployed to:", address);
   
-  // Get the deployer address
   const [deployer] = await hre.ethers.getSigners();
   console.log("👤 Deployed by:", deployer.address);
+  
+  // FIXED: Get ABI properly for ethers v5
+  const contractABI = JSON.parse(decentraSpace.interface.format('json'));
   
   // Save deployment info
   const deploymentInfo = {
@@ -29,7 +28,7 @@ async function main() {
     network: hre.network.name,
     deployer: deployer.address,
     deploymentDate: new Date().toISOString(),
-    abi: JSON.parse(decentraSpace.interface.formatJson())
+    abi: contractABI
   };
   
   // Create deployments directory if it doesn't exist
@@ -55,7 +54,7 @@ async function main() {
   
   const contractData = {
     address: address,
-    abi: JSON.parse(decentraSpace.interface.formatJson())
+    abi: contractABI
   };
   
   fs.writeFileSync(
@@ -64,23 +63,6 @@ async function main() {
   );
   
   console.log("📱 Contract data saved for frontend");
-  
-  // Verify contract on Etherscan (if not on localhost)
-  if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
-    console.log("\n🔍 Waiting for block confirmations before verification...");
-    await decentraSpace.deploymentTransaction().wait(6);
-    
-    console.log("📝 Verifying contract on Etherscan...");
-    try {
-      await hre.run("verify:verify", {
-        address: address,
-        constructorArguments: []
-      });
-      console.log("✅ Contract verified on Etherscan");
-    } catch (error) {
-      console.log("❌ Verification failed:", error.message);
-    }
-  }
   
   console.log("\n🎉 Deployment complete!");
   console.log("=====================================");
@@ -95,4 +77,3 @@ main()
     console.error(error);
     process.exit(1);
   });
-  
