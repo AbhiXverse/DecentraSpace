@@ -1,7 +1,7 @@
 // src/services/huddleService.ts
-const BACKEND_URL = import.meta.env.PROD
+const BACKEND_URL = import.meta.env.DEV
   ? '/api/huddle'  // Use proxy in development
-  : '/api/huddle';
+  : '/api';
 
 interface CreateRoomResponse {
   roomId: string;

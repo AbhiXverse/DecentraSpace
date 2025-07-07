@@ -234,7 +234,7 @@ function getCreatorStats(address creator) returns (Stats memory)
 curl http://localhost:3001/api/health
 
 # Test room creation
-curl -X POST http://localhost:3001/api/huddle/create-room \
+curl -X POST http://localhost:3001/api/create-room \
   -H "Content-Type: application/json" \
   -d '{"title":"Test Room","hostAddress":"0x...","description":"Test"}'
 
