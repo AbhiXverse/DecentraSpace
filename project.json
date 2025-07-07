@@ -1,15 +1,14 @@
 {
     "name": "DecentraSpace",
-    "tagline": "A decentralized creator economy platform",
+    "tagline": "Your Space. Your Rules. Forever.",
     "description": "DecentraSpace is a full-stack Web3 platform where creators can upload content, host live streams, and earn tips. Built using React, Huddle01 for video calls, and Lighthouse for IPFS storage. Users connect via Metamask Wallet, and all content data is stored on-chain.",
     "team": [
       {
-        "name": "Abhishek Sharma",
+        "name": "Abhishek Soni",
         "email": "abhishek2404soni@gmail.com"
       }
     ],
-    "demo_url": "",
-    "video_url": "",
+    "video_url": "https://youtu.be/3-mJZdFEwDk",
     "technologies": ["React", "Huddle01", "Lighthouse", "IPFS", "Tailwind CSS", "Node.js", "Express"]
   }
   

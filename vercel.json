@@ -1,5 +1,9 @@
 {
   "version": 2,
+  "installCommand": "npm install --production=false",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": null,
   "rewrites": [
     {
       "source": "/api/(.*)",
